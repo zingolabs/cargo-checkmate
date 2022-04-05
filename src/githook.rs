@@ -1,10 +1,10 @@
 use crate::executable::Executable;
 use crate::IOResult;
+use clap::Subcommand;
 use std::path::PathBuf;
-use structopt::StructOpt;
 
 /// git-hook support.
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Subcommand)]
 pub enum GitHook {
     /// install git-hook.
     Install,

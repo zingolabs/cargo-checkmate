@@ -1,10 +1,10 @@
 use crate::executable::Executable;
 use crate::IOResult;
+use clap::Subcommand;
 use std::path::PathBuf;
-use structopt::StructOpt;
 
 /// GitHub CI support.
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Subcommand)]
 pub enum GithubCI {
     /// install github CI.
     Install,

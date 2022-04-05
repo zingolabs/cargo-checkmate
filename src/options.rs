@@ -3,28 +3,31 @@ use crate::hook::Hook;
 use crate::phase::Phase;
 use crate::readme::Readme;
 use crate::IOResult;
-use structopt::clap::AppSettings;
-use structopt::StructOpt;
+use clap::Parser;
 
-#[derive(Debug, StructOpt)]
-#[structopt(
-    setting = AppSettings::NoBinaryName,
+#[derive(Debug, Parser)]
+#[clap(
     about = env!("CARGO_PKG_DESCRIPTION"),
+    author, 
+    version,  
+    long_about = None, 
 )]
 pub struct Options {
-    #[structopt(subcommand)]
+    #[clap(subcommand)]
     cmd: Option<Subcommand>,
 }
 
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Parser)]
 pub enum Subcommand {
     /// Run all phases.
     Everything,
 
-    #[structopt(flatten)]
+    #[clap(flatten)]
     Phase(Phase),
-
+    
+    #[clap(subcommand)]
     Hook(Hook),
+    
     Readme(Readme),
 }
 
@@ -41,24 +44,20 @@ impl Options {
             it.next();
         }
 
-        Self::from_clap(
-            &Self::clap()
-                .bin_name("cargo-checkmate")
-                .get_matches_from(it),
-        )
+        Self::parse_from(it)
     }
 }
 
 impl Executable for Options {
     fn execute(&self) -> IOResult<()> {
         let default = Subcommand::Everything;
-        self.cmd.as_ref().unwrap_or(&default).execute()
+        dbg!(self).cmd.as_ref().unwrap_or(&default).execute()
     }
 }
 
 impl Executable for Subcommand {
     fn execute(&self) -> IOResult<()> {
-        match self {
+        match dbg!(self) {
             Subcommand::Everything => Phase::execute_everything(),
             Subcommand::Phase(x) => x.execute(),
             Subcommand::Hook(x) => x.execute(),
@@ -66,3 +65,4 @@ impl Executable for Subcommand {
         }
     }
 }
+

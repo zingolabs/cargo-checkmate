@@ -4,10 +4,10 @@ mod githubci;
 use crate::executable::Executable;
 use crate::srcbundle::SourceBundle;
 use crate::IOResult;
-use structopt::StructOpt;
+use clap::{Args, Subcommand};
 
 /// manage repository hooks.
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Subcommand)]
 pub enum Hook {
     /// install repository hooks
     Install(HookTypeOption),
@@ -16,19 +16,19 @@ pub enum Hook {
 }
 
 /// hook type option
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Args)]
 pub struct HookTypeOption {
     /// Force modifying the hook even if the contents are unrecognized
-    #[structopt(long)]
+    #[clap(long)]
     force: bool,
 
     /// Hook type: all, git, or github-ci
-    #[structopt(default_value)]
+    #[clap(default_value_t)]
     hook_type: HookType,
 }
 
 /// hook type
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Subcommand)]
 pub enum HookType {
     /// all hooks
     All,
