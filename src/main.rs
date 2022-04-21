@@ -27,3 +27,21 @@ fn main() -> IOResult<()> {
     let opts = Options::parse_args();
     opts.execute()
 }
+
+#[cfg(test)]
+mod main_tests {
+    #[test]
+    fn cd_to_crate_root_is_ok() {
+        assert!(crate::cdcrate::change_directory_to_crate_root().is_ok());
+    }
+    /*
+    // this test is causing problems
+    #[test]
+    fn opts_execute_is_ok() {
+        use crate::executable::Executable;
+        use crate::options::Options;
+        crate::cdcrate::change_directory_to_crate_root().expect("problem with cdcrate");
+        let opts = Options::parse_args();
+        assert!(opts.execute().is_ok());
+    }*/
+}

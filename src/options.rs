@@ -66,3 +66,56 @@ impl Executable for Subcommand {
         }
     }
 }
+
+#[cfg(test)]
+mod options_tests {
+    #[test]
+    fn env_args_is_some() {
+        assert!(std::env::args().next().is_some())
+    }
+    #[test]
+    fn env_args_peekable_is_some() {
+        assert!(std::env::args().peekable().next().is_some())
+    }
+    #[test]
+    fn env_args_is_not_len_zero() {
+        assert_ne!(std::env::args().len(), 0)
+    }
+    #[test]
+    fn env_args_is_not_negative() {
+        assert!(std::env::args().len() > 0)
+    }
+    // there is only one arg with cargo test invocation.
+    #[test]
+    fn args_is_working_with_debug_deps_path_with_cargo_test() {
+        assert!(std::env::args()
+            .next()
+            .unwrap()
+            .contains("cargo-checkmate/target/debug/deps/cargo_checkmate-"))
+    }
+
+    // args is designed to panic when iterating over non-valid-UTF-8 input,
+    // something similar might be a good test for arguments "on the way in"?
+    #[test]
+    fn env_args_char_boundaries() {
+        for argument in std::env::args() {
+            for (i, _) in argument.char_indices() {
+                assert!(argument.is_char_boundary(i))
+            }
+        }
+    }
+
+    #[test]
+    fn parse_args_cmd_is_none() {
+        assert!(super::Options::parse_args().cmd.is_none());
+    }
+
+    #[test]
+    // running with cargo test
+    fn parse_args_completes() {
+        let _opt = super::Options::parse_args();
+        // TODO ...
+    }
+
+    // TODO glob pattern test for * ? maybe more symbols?
+}
