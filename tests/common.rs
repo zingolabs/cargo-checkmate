@@ -16,6 +16,7 @@ pub fn attempt_output() -> Output {
     };
 }
 
+// TODO : run targett/debug/cargo-checkmate executable instead
 pub fn checkmate_output() -> Output {
     if cfg!(target_os = "windows") {
         return Command::new("cmd")
