@@ -82,8 +82,8 @@ mod options_tests {
         assert!(std::env::args()
             .next()
             .unwrap()
-            // package root dir "cargo-checkmate" omitted to allow possible
-            // git worktree workflows.
+            // package root dir "cargo-checkmate" omitted
+            // to allow possible git worktree workflows.
             .contains("target/debug/deps/cargo_checkmate-"))
     }
     #[test]

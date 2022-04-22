@@ -1,6 +1,4 @@
 mod common;
-use std::path::PathBuf;
-use std::process::Output;
 use std::str;
 
 #[test]
@@ -8,10 +6,6 @@ fn current_dir_is_dir() {
     assert!(std::env::current_dir().unwrap().is_dir());
 }
 
-// TODO
-// are there platforms that will return non-absolute paths
-// from current_dir() ? verify if absolute paths (on unix)
-// can contain symlinks, hardlinks, etc
 #[test]
 fn current_dir_is_absolute() {
     assert!(std::env::current_dir().unwrap().is_absolute())
@@ -33,15 +27,6 @@ mod self_tests {
     // the following tests are temporary stand-ins for
     // checkmate self-evaluation. As a security tool the
     // integrity of the package should be confirmed.
-
-    // the next test may not be compatible with git worktrees
-    // or similar but may be useful for CI etc.
-    /*#[test]
-    fn current_dir_is_checkmate() {
-        assert!(std::env::current_dir()
-            .unwrap()
-            .ends_with("cargo-checkmate"));
-    }*/
 
     //should work across various OS paths
     #[test]
@@ -110,8 +95,3 @@ fn checkmate_passes_checkmate() {
         .unwrap()
         .contains("cargo-checkmate result: FAILED."));
 }
-
-// test env::args() panics with non UTF8
-// env::args_os() function can handle non UTF8 arguments
-
-// in main.rs : opts.execute() is called, look for tests here?

@@ -2,6 +2,7 @@ use std::process::Command;
 use std::process::Output;
 
 pub fn attempt_output() -> Output {
+    // TODO: windows workflow untested
     if cfg!(target_os = "windows") {
         return Command::new("cmd")
             .args(["/C", "echo windows-test"])
@@ -16,17 +17,16 @@ pub fn attempt_output() -> Output {
     };
 }
 
-// TODO : run targett/debug/cargo-checkmate executable instead
 pub fn checkmate_output() -> Output {
     if cfg!(target_os = "windows") {
         return Command::new("cmd")
-            .args(["/C", "cargo checkmate"])
+            .args(["/C", "target", "debug", "cargo-checkmate"])
             .output()
             .expect("failed to exectute, windows OS");
     } else {
         return Command::new("sh")
             .arg("-c")
-            .arg("cargo checkmate")
+            .arg("./target/debug/cargo-checkmate")
             .output()
             .expect("failed to execute");
     };
