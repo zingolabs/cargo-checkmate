@@ -17,6 +17,21 @@ pub fn attempt_output() -> Output {
     };
 }
 
+pub fn checkmate_help_output() -> Output {
+    if cfg!(target_os = "windows") {
+        return Command::new("cmd")
+            .args(["/C", "target", "debug", "cargo-checkmate --help"])
+            .output()
+            .expect("failed to exectute, windows OS");
+    } else {
+        return Command::new("sh")
+            .arg("-c")
+            .arg("./target/debug/cargo-checkmate --help")
+            .output()
+            .expect("failed to execute");
+    };
+}
+
 pub fn checkmate_output() -> Output {
     if cfg!(target_os = "windows") {
         return Command::new("cmd")
