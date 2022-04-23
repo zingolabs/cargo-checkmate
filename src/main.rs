@@ -27,3 +27,11 @@ fn main() -> IOResult<()> {
     let opts = Options::parse_args();
     opts.execute()
 }
+
+#[cfg(test)]
+mod main_tests {
+    #[test]
+    fn cd_to_crate_root_is_ok() {
+        assert!(crate::cdcrate::change_directory_to_crate_root().is_ok());
+    }
+}
