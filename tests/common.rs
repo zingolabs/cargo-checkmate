@@ -1,4 +1,3 @@
-use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
 
@@ -35,17 +34,16 @@ pub fn checkmate_help_output() -> Output {
 }
 
 pub fn checkmate_output() -> Output {
-    let exec: PathBuf = PathBuf::from("target/debug/cargo-checkmate");
     if cfg!(target_os = "windows") {
         Command::new("cmd")
             .arg("/C")
-            .arg(exec)
+            .arg("./target/debug/cargo-checkmate")
             .output()
             .expect("failed to exectute, windows OS")
     } else {
         Command::new("sh")
             .arg("-c")
-            .arg(exec)
+            .arg("./target/debug/cargo-checkmate")
             .output()
             .expect("failed to execute")
     }
