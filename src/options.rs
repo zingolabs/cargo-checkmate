@@ -66,11 +66,3 @@ impl Executable for Subcommand {
         }
     }
 }
-
-#[cfg(test)]
-mod options_tests {
-    #[test]
-    fn parse_args_cmd_is_none() {
-        assert!(super::Options::parse_args().cmd.is_none());
-    }
-}

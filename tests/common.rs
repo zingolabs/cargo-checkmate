@@ -1,54 +1,25 @@
 use std::process::Command;
 use std::process::Output;
 
+pub fn assemble_command(argument: &str) -> Output {
+    Command::new("sh")
+        .arg("-c")
+        .arg(argument)
+        .output()
+        .expect("failed to execute")
+}
+
 pub fn attempt_output() -> Output {
-    // TODO: windows workflow untested
-    if cfg!(target_os = "windows") {
-        Command::new("cmd")
-            .args(["/C", "echo windows-test"])
-            .output()
-            .expect("failed to exectute, windows OS")
-    } else {
-        Command::new("sh")
-            .arg("-c")
-            .arg("echo testing")
-            .output()
-            .expect("failed to execute")
-    }
+    let arg = "echo testing";
+    assemble_command(arg)
 }
 
 pub fn checkmate_help_output() -> Output {
-    if cfg!(target_os = "windows") {
-        Command::new("cmd")
-            .arg("/C")
-            .arg("./target/debug/cargo-checkmate --help")
-            .output()
-            .expect("failed to exectute, windows OS")
-    } else {
-        Command::new("sh")
-            .arg("-c")
-            .arg("./target/debug/cargo-checkmate --help")
-            .output()
-            .expect("failed to execute")
-    }
+    let arg = "./target/debug/cargo-checkmate --help";
+    assemble_command(arg)
 }
 
 pub fn checkmate_output() -> Output {
-    if cfg!(target_os = "windows") {
-        Command::new("cmd")
-            .arg("/C")
-            .arg("./target/debug/cargo-checkmate")
-            .output()
-            .expect("failed to exectute, windows OS")
-    } else {
-        Command::new("sh")
-            .arg("-c")
-            .arg("./target/debug/cargo-checkmate")
-            .output()
-            .expect("failed to execute")
-    }
-}
-
-pub fn get_pkg_name() -> &'static str {
-    env!("CARGO_PKG_NAME")
+    let arg = "./target/debug/cargo-checkmate";
+    assemble_command(arg)
 }
