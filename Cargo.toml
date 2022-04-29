@@ -17,3 +17,6 @@ include_dir = "0.7.2"
 
 [dev-dependencies]
 test-case = "1.0.0"
+
+[features]
+selftest = []
