@@ -15,25 +15,21 @@ pub fn clean_build_checkmate() {
         .expect("cargo build failed");
 }
 
-pub fn attempt_output() -> Output {
-    let cli_arg = "echo testing";
-    assemble_command(cli_arg)
-}
-pub fn checkmate_help_output() -> Output {
-    let cli_arg = "./target/debug/cargo-checkmate --help";
-    assemble_command(cli_arg)
-}
-pub fn checkmate_output() -> Output {
-    let cli_arg = "./target/debug/cargo-checkmate";
-    assemble_command(cli_arg)
-}
-
-pub fn assemble_command(argument: &str) -> Output {
-    Command::new("script")
-        .arg("-O")
-        .arg("selftest_stdout")
-        .arg("-c")
-        .arg(argument)
-        .output()
-        .expect("failed to execute")
+pub fn assemble_command(argument: Option<&str>) -> Output {
+    match argument {
+        Some(arg) => {
+            let mut exe: String = String::from("./target/debug/cargo-checkmate ");
+            exe.push_str(arg);
+            Command::new("script")
+                .arg("-c")
+                .arg(&exe)
+                .output()
+                .expect("failed to execute")
+        }
+        None => Command::new("script")
+            .arg("-c")
+            .arg("./target/debug/cargo-checkmate")
+            .output()
+            .expect("failed to execute"),
+    }
 }
