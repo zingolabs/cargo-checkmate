@@ -18,7 +18,7 @@ mod selftests {
     #[cfg_attr(not(feature = "selftest"), ignore)]
     fn checkmate_output_status_successful() {
         super::common::clean_build_checkmate();
-        assert!(super::common::assemble_command(None).status.success())
+        assert!(super::common::check_status_command(None).status.success())
     }
 
     #[test]

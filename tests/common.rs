@@ -4,8 +4,6 @@ use std::process::Output;
 pub fn clean_build_checkmate() {
     Command::new("cargo")
         .arg("clean")
-        .arg("-p")
-        .arg("cargo-checkmate")
         .status()
         .expect("cargo clean failed");
     Command::new("cargo")
@@ -13,6 +11,18 @@ pub fn clean_build_checkmate() {
         .arg("-q")
         .status()
         .expect("cargo build failed");
+}
+
+pub fn check_status_command(argument: Option<&str>) -> Output {
+    match argument {
+        Some(arg) => Command::new("./target/debug/cargo-checkmate ")
+            .arg(arg)
+            .output()
+            .expect("command status with args failed"),
+        None => Command::new("./target/debug/cargo-checkmate")
+            .output()
+            .expect("command status with no args failed"),
+    }
 }
 
 pub fn assemble_command(argument: Option<&str>) -> Output {
