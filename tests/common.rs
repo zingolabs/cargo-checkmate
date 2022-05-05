@@ -1,25 +1,19 @@
 use std::process::Command;
 use std::process::Output;
 
-pub fn assemble_command(argument: &str) -> Output {
-    Command::new("sh")
-        .arg("-c")
+pub fn check_status_command(argument: &str) -> Output {
+    Command::new("cargo-checkmate")
         .arg(argument)
         .output()
+        .expect("command status with args failed")
+}
+
+pub fn assemble_command(argument: &str) -> Output {
+    let mut exe: String = String::from("./target/debug/cargo-checkmate ");
+    exe.push_str(argument);
+    Command::new("script")
+        .arg("-c")
+        .arg(&exe)
+        .output()
         .expect("failed to execute")
-}
-
-pub fn attempt_output() -> Output {
-    let arg = "echo testing";
-    assemble_command(arg)
-}
-
-pub fn checkmate_help_output() -> Output {
-    let arg = "./target/debug/cargo-checkmate --help";
-    assemble_command(arg)
-}
-
-pub fn checkmate_output() -> Output {
-    let arg = "./target/debug/cargo-checkmate";
-    assemble_command(arg)
 }
