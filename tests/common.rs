@@ -5,5 +5,5 @@ pub fn checkmate_command(argument: &str) -> Output {
     Command::new("./target/debug/cargo-checkmate")
         .arg(argument)
         .output()
-        .expect("command status with args failed")
+        .expect("command with args failed")
 }
