@@ -11,3 +11,9 @@ pub fn checkmate_command(argument: &str) -> Output {
         .output()
         .expect("command with args failed")
 }
+
+#[should_panic]
+#[test]
+fn empty_checkmate_command() {
+    checkmate_command("");
+}
